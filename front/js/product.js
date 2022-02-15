@@ -25,41 +25,45 @@ async function getProduct(){
     }
   
 
-    //Selectionner la classe ou je vais injecter le code HTML
+    //Selectionner l'id ou les classes ou je vais injecter le code HTML
     //image
-    const item = document.querySelector(".item")
-    console.log(item);
     const item__img = document.querySelector(".item__img");
     console.log(item__img);
 
     //price
-  /*   const item__content = document.querySelector(".item__content");
-    const item__content__titlePrice = document.querySelector(".item__content__titlePrice"); */
     const titlePrice = document.getElementById("title");
     const price = document.getElementById("price");
     
     //description:
     const description = document.getElementById("description");
-    //Afficher le produit dans la page Produit (dans le DOM) avec la fonction productDisplay
+
+    //couleur
+    const colors = document.getElementById("colors");
+
+    //Afficher le produit en question dans la page produit (dans le DOM) avec la fonction productDisplay
     async function productDisplay(){
     await getProduct();
     //image
     let image = document.createElement("img");
-    image.src = `${product.imageUrl}`;
-    image.alt = `${product.altTxt}`;
+    image.src = product.imageUrl;
+    image.alt = product.altTxt;
     item__img.appendChild(image);
  /* deuxiéme methode:
     item__img.innerHTML =  `<img src="${product.imageUrl}" alt=${product.altTxt}> `; */
    
-    //Price
-   titlePrice.textContent = `${product.name}`;
-   price.textContent = `${product.price}`;
+//Price
+    titlePrice.textContent = product.name;
+    price.textContent = product.price;
    
-   //description
-  description.textContent = `${product.description}`;
-    
+//description
+    description.textContent = product.description;
    
-
-
-    }
+//couleur
+    for (let i = 0; i < product.colors.length; i++){
+    let option = document.createElement("option");
+    option.textContent =  product.colors[i];
+    colors.appendChild(option); 
+    console.log(option)
+} 
+}
 productDisplay();
