@@ -26,7 +26,7 @@ async function articlesDisplay(){
     let items = document.getElementById("items");//Récupérer mon élément avec l'id items
     //link
     let link = document.createElement("a");//Créer un element a
-    link.href = `./product.html?id= ${article._id}`; // Pour chaque article dans mon tableau articles je récupére la valeur de ma clé "_id" grace à la variable qui contient l'objet donc "article" et le nom de ma clé : id= ${article._id} 
+    link.href = `./product.html?id=${article._id}`; // Pour chaque article dans mon tableau articles je récupére la valeur de ma clé "_id" grace à la variable qui contient l'objet donc "article" et le nom de ma clé : id= ${article._id} 
     items.appendChild(link);//Afficher l'élement sur ma page web grace à la fonction appendChild
     //article
     let cart = document.createElement("article");
