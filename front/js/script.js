@@ -33,17 +33,17 @@ async function articlesDisplay(){
     link.appendChild(cart);
     //img
     let image = document.createElement("img");
-    image.src = `${article.imageUrl}`;
-    image.alt = `${article.altTxt}`;
+    image.src = article.imageUrl;
+    image.alt = article.altTxt;
     cart.appendChild(image);
     //titre
     let productName = document.createElement("h3");
-    productName.textContent = `${article.name}`;
+    productName.textContent = article.name;
     productName.classList.add("productName");
     cart.appendChild(productName);
     //description
     let productDescription = document.createElement("p");
-    productDescription.textContent = `${article.description}`;
+    productDescription.textContent = article.description;
     productDescription.classList.add("productDescription");
     cart.appendChild(productDescription);
   } 
