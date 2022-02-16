@@ -61,9 +61,11 @@ async function getProduct(){
 //couleur
     for (let i = 0; i < product.colors.length; i++){
     let option = document.createElement("option");
+    option.value = product.colors[i];
     option.textContent =  product.colors[i];
     colors.appendChild(option); 
     console.log(option)
 } 
 }
 productDisplay();
+
