@@ -24,7 +24,7 @@ async function getProduct(){
     }
   
 
- /*Récupérer les élémnents avec l'id ou leur classe pour créer et afficher le produit en question dans la page produit*/
+ /*Récupérer les élémnents HTML avec l'id ou leur classe pour créer et afficher le produit en question dans la page produit*/
     //image
     const item__img = document.querySelector(".item__img");
    
@@ -39,11 +39,13 @@ async function getProduct(){
 
     //couleur
     const selectColor = document.getElementById("colors");
+    //Quantité
+    const quantity = document.querySelector("#quantity");
 
  /*Afficher le produit en question dans la page produit (dans le DOM) avec la fonction productDisplay*/ 
     async function productDisplay(){
     await getProduct();
-//image du produit
+ //image du produit
     let image = document.createElement("img");
     image.src = product.imageUrl;
     image.alt = product.altTxt;
@@ -51,16 +53,16 @@ async function getProduct(){
  /* deuxiéme methode:
     item__img.innerHTML =  `<img src="${product.imageUrl}" alt=${product.altTxt}> `; */
    
-//Titre du produit
+ //Titre du produit
     title.textContent = product.name;
 
-//Prix du produit
+ //Prix du produit
     price.textContent = product.price;
    
-//description du produit
+ //description du produit
     description.textContent = product.description;
    
-//une boucle pour selectionner la couleur  
+ //une boucle pour selectionner la couleur : pour dire crée pour le parent selectColor tant d'option quil faut donc tout dépend de la longeur de mon tableau colors avec comme valeur et contenu product.colors[i] 
     for (let i = 0; i < product.colors.length; i++){
     const selectColor = document.getElementById("colors");
     let option = document.createElement("option");
@@ -71,4 +73,36 @@ async function getProduct(){
 } 
 }
 productDisplay();
+//------------------La gestion du panier------------------
+/*Récupération des données selectionnées par l'utilisateur et envoie du panier*/
+
+//Afficher la quantité dans la console 
+/* console.log(quantity);
+
+quantity.addEventListener('change', (event)=>{
+     choiceQuantity = event.target.value; 
+     console.log(choiceQuantity);//ceci affiche la quantité saisie dans l'iput quantité
+}); */
+//Selectionner l'id du bouton ajouter au panier
+const addToCart = document.querySelector("#addToCart");
+/* //Mettre le choix de l'utilisateur dans une varaiable
+const choiceProduct = addToCart.value; //cela me redirige vers la page panier
+console.log(choiceProduct);  */
+console.log(addToCart);
+//Ecouter le bouton 
+addToCart.addEventListener('click',(event)=>{
+
+//Récupérer les valeur selectionner par l'utilisateur
+let choiceProduct = {
+    id : productID,
+    colors: selectColor.value,
+    quantity : quantity.value
+}
+console.log(choiceProduct)
+});
+
+
+
+
+
 
