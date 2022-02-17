@@ -69,7 +69,6 @@ async function getProduct(){
     option.value = product.colors[i];
     option.textContent =  product.colors[i];
     selectColor.appendChild(option); 
-    console.log(option)
 } 
 }
 productDisplay();
@@ -86,20 +85,56 @@ quantity.addEventListener('change', (event)=>{
 //Selectionner l'id du bouton ajouter au panier
 const addToCart = document.querySelector("#addToCart");
 /* //Mettre le choix de l'utilisateur dans une varaiable
-const choiceProduct = addToCart.value; //cela me redirige vers la page panier
+const choiceProduct = addToCart.value; //cela me redirige vers la page panier????
 console.log(choiceProduct);  */
 console.log(addToCart);
+
 //Ecouter le bouton 
 addToCart.addEventListener('click',(event)=>{
-
-//Récupérer les valeur selectionner par l'utilisateur
+//Récupérer les valeur selectionnées par l'utilisateur
 let choiceProduct = {
     id : productID,
     colors: selectColor.value,
-    quantity : quantity.value
+    quantity : quantity.value, // parseInt(quantity.value), //pour l'afficher en nombre et pas en chaine de caractére
 }
-console.log(choiceProduct)
+console.log(choiceProduct);
+/*-------------------------------Le localStorage---------------------------*/
+
+//Stocker la recupération des valeur sélectionnées par l'utilisateur
+//Déclarer la variable qui va contenir les clés et valeurs qui sont dans le localStorage
+ let addLocalStorage = JSON.parse( localStorage.getItem("productAdded")) ;//JSON.parse() pour convertir les données au format JSON qui sont dans le locaStorage en objet JavaScript 
+ //Fonction confirmation fenetre pop up:
+ const popupConfirmation = ()=>{
+     if(window.confirm(`${product.name} 
+     Couleur : ${selectColor.value} , Quantité : ${quantity.value} a bien été ajouter au panier 
+     Consulter le panier Ok ou revenir à l'accueil Annuler `  )){
+     window.location.href = "cart.html";
+     }else{
+        window.location.href = "index.html";
+     }
+
+ };
+ //fonction ajouter un produit au localStorage:
+    const addToLocalStorage = ()=>{
+    addLocalStorage.push(choiceProduct);//La méthode push() pour ajoute le produit selectionné par l'utilisateur (choiceProduct) dans un tableau (addLocalStorage)
+    localStorage.setItem("productAdded", JSON.stringify(addLocalStorage));//la transformation en format JSON et l'envoyer dans la key "productAdded" au localStorage
+ };
+
+//S'il y a déja un produit d'enregistré dans le localStorage
+if(addLocalStorage ){
+    addToLocalStorage();
+    console.log(addLocalStorage);//affiche un tableau avec tous les produits selectionnés par l'utilisateur(choiceProduct)
+    popupConfirmation();
+  //S'il n'y a pas de produit d'enregistré dans le localStorage
+}else{
+    addLocalStorage = [];
+    addToLocalStorage();
+    /*----------Envoyer le produit dans le localStorage:------*/
+    popupConfirmation();
+  
+};
 });
+
 
 
 
