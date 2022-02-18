@@ -95,11 +95,11 @@ addToCart.addEventListener('click',(event)=>{
 let choiceProduct = {
     id : productID,
     colors: selectColor.value,
-    quantity : quantity.value, // parseInt(quantity.value), //pour l'afficher en nombre et pas en chaine de caractére
+    quantity : parseInt(quantity.value) //pour l'afficher en nombre et pas en chaine de caractére
 }
 console.log(choiceProduct);
 /*-------------------------------Le localStorage---------------------------*/
-
+//________________________________________________________________________________________________________
 //Stocker la recupération des valeur sélectionnées par l'utilisateur
 //Déclarer la variable qui va contenir les clés et valeurs qui sont dans le localStorage
  let addLocalStorage = JSON.parse( localStorage.getItem("productAdded")) ;//JSON.parse() pour convertir les données au format JSON qui sont dans le locaStorage en objet JavaScript 
@@ -114,26 +114,69 @@ console.log(choiceProduct);
      }
 
  };
+ 
  //fonction ajouter un produit au localStorage:
-    const addToLocalStorage = ()=>{
+   const addToLocalStorage = ()=>{
     addLocalStorage.push(choiceProduct);//La méthode push() pour ajoute le produit selectionné par l'utilisateur (choiceProduct) dans un tableau (addLocalStorage)
     localStorage.setItem("productAdded", JSON.stringify(addLocalStorage));//la transformation en format JSON et l'envoyer dans la key "productAdded" au localStorage
  };
 
 //S'il y a déja un produit d'enregistré dans le localStorage
-if(addLocalStorage ){
-    addToLocalStorage();
+  if(addLocalStorage){   
+    let foundProduct = addLocalStorage.find(p => p.id == choiceProduct.id && choiceProduct.colors == p.colors) //find est une fonction qui travaille sur les tableau et qui permet de chercher un elelment sur un tableau par rapport à une condition, find() si elle trouve l'element elle va retourner l'element en question sinon elle retourne undefined 
+    if (foundProduct != undefined){
+     foundProduct.quantity =  choiceProduct.quantity + foundProduct.quantity;
+     addToLocalStorage(); 
+    }
+   
     console.log(addLocalStorage);//affiche un tableau avec tous les produits selectionnés par l'utilisateur(choiceProduct)
-    popupConfirmation();
+   // popupConfirmation();
   //S'il n'y a pas de produit d'enregistré dans le localStorage
 }else{
     addLocalStorage = [];
-    addToLocalStorage();
+    addToLocalStorage(); 
     /*----------Envoyer le produit dans le localStorage:------*/
-    popupConfirmation();
+    //popupConfirmation();
   
 };
+
+//____________________________________________________________________________________________________________
+
+
+   
+  
 });
+//training
+//une fonction qui permet d'enregister le panier dans le localStorage
+function saveBasket(basket){
+    localStorage.setItem("basket", JSON.stringify( basket));
+}
+//Récupérer les valeur séléctionner par l'utilisateur
+function getBasket(){
+    let basket = localStorage.getItem("basket");
+    if (basket == null){
+         return [];   //donc panier vide
+    }else{ //le panier existe
+       return JSON.parse(basket);
+    }
+}
+
+//function ajouter au panier
+function addBasket(choiceProduct){
+    let basket = getBasket(); //Récupérer le panier qui est dans le local storage
+    //gérer la quantité du produit si il existe deja on incrémmente la quantité sinon on l'ajoute 
+    let foundProduct = basket.find(p => p.id == choiceProduct.id) //find est une fonction qui travaille sur les tableau et qui permet de chercher un elelment sur un tableau par rapport à une condition, find() si elle trouve l'element elle va retourner l'element en question sinon elle retourne undefined 
+    if (foundProduct != undefined){
+     foundProduct.quantity++;//donc il existe déja dans mon panier
+    }else{
+        choiceProduct.quantity = 1;
+        basket.push(choiceProduct); // puis on lui ajoute le produit selectionner par le user
+    }
+
+    //je cherche dans mon panier s'il y a un produit dont l'id est egale à l'id du produit que je veux ajouter 
+   
+    saveBasket(basket);//ensuite on enregistre le nouveau panier
+}
 
 
 
