@@ -110,13 +110,6 @@ let choiceProduct = {
        window.location.href = "index.html";
     }
   };
-   
-  //On vérifie si une quantité et une couleur ont bien été choisies
-   if(choiceProduct.quantity == 0 || choiceProduct.quantity >100 || choiceProduct.colors == "" ){
-       alert("Veuillez indiquer une quantité correcte et choisir une couleur")
-   }else{
-     popupConfirmation();
-   }
    //Stocker la recupération des valeur sélectionnées par l'utilisateur
   //Déclarer la variable qui va contenir les clés et valeurs qui sont dans le localStorage
   let addLocalStorage = JSON.parse( localStorage.getItem("productAdded")) ;//JSON.parse() pour convertir les données au format JSON qui sont dans le locaStorage en objet JavaScript 
@@ -127,24 +120,35 @@ let choiceProduct = {
         localStorage.setItem("productAdded", JSON.stringify(addLocalStorage));//la transformation en format JSON et l'envoyer dans la key "productAdded" au localStorage
      };
 
-    //Nous avons deux possibilité
-     /*-----(1)-S'il y a déja un produit d'enregistré dans le localStorage-----*/
-  if(addLocalStorage !== null){   
-    let foundProduct = addLocalStorage.find(p => p.id == choiceProduct.id && choiceProduct.colors == p.colors) //find est une fonction qui travaille sur les tableau et qui permet de chercher un elelment sur un tableau par rapport à une condition, find() si elle trouve l'element elle va retourner l'element en question sinon elle retourne undefined 
-    if (foundProduct != undefined){
-     foundProduct.quantity =  choiceProduct.quantity + foundProduct.quantity;
-     //mise à jour du panier
-     localStorage.setItem("productAdded", JSON.stringify(addLocalStorage));
-    }else if(addLocalStorage){ //sinon s'il y a deja un produit avec id et couleur différents on crée un nouveau objet dans le panier
-        addToLocalStorage();
-    }
-    console.log(addLocalStorage);//affiche un tableau avec tous les produits selectionnés par l'utilisateur(choiceProduct)
    
-  //-----(2)-S'il n'y a pas de produit d'enregistré dans le localStorage alors on crée le premier objet
-}else{  
-    addLocalStorage = [];
-    addToLocalStorage(); 
-}
+  //On vérifie si une quantité et une couleur ont bien été choisies
+   if(choiceProduct.quantity == 0 || choiceProduct.quantity >100 || choiceProduct.colors == "" ){
+       alert("Veuillez indiquer une quantité correcte et choisir une couleur");
+       
+   }else{
+     popupConfirmation();
+     //Nous avons deux possibilité
+     /*-----(1)-S'il y a déja un produit d'enregistré dans le localStorage-----*/
+     if(addLocalStorage !== null){   
+        let foundProduct = addLocalStorage.find(p => p.id == choiceProduct.id && choiceProduct.colors == p.colors) //find est une fonction qui travaille sur les tableau et qui permet de chercher un elelment sur un tableau par rapport à une condition, find() si elle trouve l'element elle va retourner l'element en question sinon elle retourne undefined 
+        if (foundProduct != undefined){
+         foundProduct.quantity =  choiceProduct.quantity + foundProduct.quantity;
+         //mise à jour du panier
+         localStorage.setItem("productAdded", JSON.stringify(addLocalStorage));
+        }else if(addLocalStorage){ //sinon s'il y a deja un produit avec id et couleur différents on crée un nouveau objet dans le panier
+            addToLocalStorage();
+        }
+        console.log(addLocalStorage);//affiche un tableau avec tous les produits selectionnés par l'utilisateur(choiceProduct)
+       
+      //-----(2)-S'il n'y a pas de produit d'enregistré dans le localStorage alors on crée le premier objet
+    }else{  
+        addLocalStorage = [];
+        addToLocalStorage(); 
+    }
+   }
+  
+    
+ 
 });
 }
 addBasket();
