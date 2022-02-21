@@ -72,9 +72,8 @@ async function getProduct(){
 } 
 }
 productDisplay();
-//------------------La gestion du panier------------------
-/*Récupération des données selectionnées par l'utilisateur et envoie du panier*/
 
+//________________________________________________
 //Afficher la quantité dans la console 
 /* console.log(quantity);
 
@@ -82,105 +81,75 @@ quantity.addEventListener('change', (event)=>{
      choiceQuantity = event.target.value; 
      console.log(choiceQuantity);//ceci affiche la quantité saisie dans l'iput quantité
 }); */
+//________________________________________________
+//-----------------------------La gestion du panier------------------------------
+/*Récupération des données selectionnées par l'utilisateur et envoie du panier*/
+function addBasket(){
 //Selectionner l'id du bouton ajouter au panier
 const addToCart = document.querySelector("#addToCart");
-/* //Mettre le choix de l'utilisateur dans une varaiable
-const choiceProduct = addToCart.value; //cela me redirige vers la page panier????
-console.log(choiceProduct);  */
 console.log(addToCart);
 
-//Ecouter le bouton 
+
+//Ecouter le bouton ajouter au panier
 addToCart.addEventListener('click',(event)=>{
 //Récupérer les valeur selectionnées par l'utilisateur
 let choiceProduct = {
     id : productID,
     colors: selectColor.value,
-    quantity : parseInt(quantity.value) //pour l'afficher en nombre et pas en chaine de caractére
+    quantity : parseInt(quantity.value) //parseInt pour l'afficher en nombre et pas en chaine de caractére
 }
-console.log(choiceProduct);
-/*-------------------------------Le localStorage---------------------------*/
-//________________________________________________________________________________________________________
-//Stocker la recupération des valeur sélectionnées par l'utilisateur
-//Déclarer la variable qui va contenir les clés et valeurs qui sont dans le localStorage
- let addLocalStorage = JSON.parse( localStorage.getItem("productAdded")) ;//JSON.parse() pour convertir les données au format JSON qui sont dans le locaStorage en objet JavaScript 
- //Fonction confirmation fenetre pop up:
- const popupConfirmation = ()=>{
-     if(window.confirm(`${product.name} 
-     Couleur : ${selectColor.value} , Quantité : ${quantity.value} a bien été ajouter au panier 
-     Consulter le panier Ok ou revenir à l'accueil Annuler `  )){
-     window.location.href = "cart.html";
-     }else{
-        window.location.href = "index.html";
-     }
-
- };
+  console.log(choiceProduct);
  
- //fonction ajouter un produit au localStorage:
-   const addToLocalStorage = ()=>{
-    addLocalStorage.push(choiceProduct);//La méthode push() pour ajoute le produit selectionné par l'utilisateur (choiceProduct) dans un tableau (addLocalStorage)
-    localStorage.setItem("productAdded", JSON.stringify(addLocalStorage));//la transformation en format JSON et l'envoyer dans la key "productAdded" au localStorage
- };
+  //Fonction confirmation fenetre pop up:
+  function popupConfirmation(){
+    if(window.confirm(`${product.name} 
+    Couleur : ${selectColor.value} , Quantité : ${quantity.value} a bien été ajouter au panier 
+    Consulter le panier Ok ou revenir à l'accueil Annuler `  )){
+    window.location.href = "cart.html";
+    }else{
+       window.location.href = "index.html";
+    }
+  };
+   
+  //On vérifie si une quantité et une couleur ont bien été choisies
+   if(choiceProduct.quantity == 0 || choiceProduct.quantity >100 || choiceProduct.colors == "" ){
+       alert("Veuillez indiquer une quantité correcte et choisir une couleur")
+   }else{
+     popupConfirmation();
+   }
+   //Stocker la recupération des valeur sélectionnées par l'utilisateur
+  //Déclarer la variable qui va contenir les clés et valeurs qui sont dans le localStorage
+  let addLocalStorage = JSON.parse( localStorage.getItem("productAdded")) ;//JSON.parse() pour convertir les données au format JSON qui sont dans le locaStorage en objet JavaScript 
 
-//S'il y a déja un produit d'enregistré dans le localStorage
-  if(addLocalStorage){   
+    //fonction ajouter un produit au localStorage:
+    function addToLocalStorage(){
+        addLocalStorage.push(choiceProduct);//La méthode push() pour ajouter le produit selectionné par l'utilisateur (choiceProduct) dans un tableau (addLocalStorage)
+        localStorage.setItem("productAdded", JSON.stringify(addLocalStorage));//la transformation en format JSON et l'envoyer dans la key "productAdded" au localStorage
+     };
+
+    //Nous avons deux possibilité
+     /*-----(1)-S'il y a déja un produit d'enregistré dans le localStorage-----*/
+  if(addLocalStorage !== null){   
     let foundProduct = addLocalStorage.find(p => p.id == choiceProduct.id && choiceProduct.colors == p.colors) //find est une fonction qui travaille sur les tableau et qui permet de chercher un elelment sur un tableau par rapport à une condition, find() si elle trouve l'element elle va retourner l'element en question sinon elle retourne undefined 
     if (foundProduct != undefined){
      foundProduct.quantity =  choiceProduct.quantity + foundProduct.quantity;
-     addToLocalStorage(); 
+     //mise à jour du panier
+     localStorage.setItem("productAdded", JSON.stringify(addLocalStorage));
+    }else if(addLocalStorage){ //sinon s'il y a deja un produit avec id et couleur différents on crée un nouveau objet dans le panier
+        addToLocalStorage();
     }
-   
     console.log(addLocalStorage);//affiche un tableau avec tous les produits selectionnés par l'utilisateur(choiceProduct)
-   // popupConfirmation();
-  //S'il n'y a pas de produit d'enregistré dans le localStorage
-}else{
+   
+  //-----(2)-S'il n'y a pas de produit d'enregistré dans le localStorage alors on crée le premier objet
+}else{  
     addLocalStorage = [];
     addToLocalStorage(); 
-    /*----------Envoyer le produit dans le localStorage:------*/
-    //popupConfirmation();
-  
-};
-
-//____________________________________________________________________________________________________________
-
-
-   
-  
+}
 });
-//training
-//une fonction qui permet d'enregister le panier dans le localStorage
-function saveBasket(basket){
-    localStorage.setItem("basket", JSON.stringify( basket));
 }
-//Récupérer les valeur séléctionner par l'utilisateur
-function getBasket(){
-    let basket = localStorage.getItem("basket");
-    if (basket == null){
-         return [];   //donc panier vide
-    }else{ //le panier existe
-       return JSON.parse(basket);
-    }
-}
-
-//function ajouter au panier
-function addBasket(choiceProduct){
-    let basket = getBasket(); //Récupérer le panier qui est dans le local storage
-    //gérer la quantité du produit si il existe deja on incrémmente la quantité sinon on l'ajoute 
-    let foundProduct = basket.find(p => p.id == choiceProduct.id) //find est une fonction qui travaille sur les tableau et qui permet de chercher un elelment sur un tableau par rapport à une condition, find() si elle trouve l'element elle va retourner l'element en question sinon elle retourne undefined 
-    if (foundProduct != undefined){
-     foundProduct.quantity++;//donc il existe déja dans mon panier
-    }else{
-        choiceProduct.quantity = 1;
-        basket.push(choiceProduct); // puis on lui ajoute le produit selectionner par le user
-    }
-
-    //je cherche dans mon panier s'il y a un produit dont l'id est egale à l'id du produit que je veux ajouter 
-   
-    saveBasket(basket);//ensuite on enregistre le nouveau panier
-}
+addBasket();
 
 
 
 
-
-
-
+ 
