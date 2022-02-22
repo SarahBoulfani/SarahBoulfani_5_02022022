@@ -100,16 +100,6 @@ let choiceProduct = {
 }
   console.log(choiceProduct);
  
-  //Fonction confirmation fenetre pop up:
-  function popupConfirmation(){
-    if(window.confirm(`${product.name} 
-    Couleur : ${selectColor.value} , Quantité : ${quantity.value} a bien été ajouter au panier 
-    Consulter le panier Ok ou revenir à l'accueil Annuler `  )){
-    window.location.href = "cart.html";
-    }else{
-       window.location.href = "index.html";
-    }
-  };
    //Stocker la recupération des valeur sélectionnées par l'utilisateur
   //Déclarer la variable qui va contenir les clés et valeurs qui sont dans le localStorage
   let addLocalStorage = JSON.parse( localStorage.getItem("productAdded")) ;//JSON.parse() pour convertir les données au format JSON qui sont dans le locaStorage en objet JavaScript 
@@ -119,15 +109,9 @@ let choiceProduct = {
         addLocalStorage.push(choiceProduct);//La méthode push() pour ajouter le produit selectionné par l'utilisateur (choiceProduct) dans un tableau (addLocalStorage)
         localStorage.setItem("productAdded", JSON.stringify(addLocalStorage));//la transformation en format JSON et l'envoyer dans la key "productAdded" au localStorage
      };
-
-   
-  //On vérifie si une quantité et une couleur ont bien été choisies
-   if(choiceProduct.quantity == 0 || choiceProduct.quantity >100 || choiceProduct.colors == "" ){
-       alert("Veuillez indiquer une quantité correcte et choisir une couleur");
-       
-   }else{
-     popupConfirmation();
-     //Nous avons deux possibilité
+     //Fonction qui traite les deux possibilités
+     function storage(){
+         //Nous avons deux possibilité
      /*-----(1)-S'il y a déja un produit d'enregistré dans le localStorage-----*/
      if(addLocalStorage !== null){   
         let foundProduct = addLocalStorage.find(p => p.id == choiceProduct.id && choiceProduct.colors == p.colors) //find est une fonction qui travaille sur les tableau et qui permet de chercher un elelment sur un tableau par rapport à une condition, find() si elle trouve l'element elle va retourner l'element en question sinon elle retourne undefined 
@@ -144,11 +128,27 @@ let choiceProduct = {
     }else{  
         addLocalStorage = [];
         addToLocalStorage(); 
+     }
     }
+      //Fonction confirmation fenetre pop up:
+  function popupConfirmation(){
+    if(window.confirm(`${product.name} 
+    Couleur : ${selectColor.value} , Quantité : ${quantity.value} a bien été ajouter au panier 
+    Consulter le panier Ok ou revenir à l'accueil Annuler `  )){
+    window.location.href = "cart.html";
+    }else{
+       window.location.href = "index.html";
+    }
+  };
+
+  //On vérifie si une quantité et une couleur ont bien été choisies
+   if(choiceProduct.quantity == 0 || choiceProduct.quantity >100 || choiceProduct.colors == "" ){
+       alert("Veuillez indiquer une quantité correcte et choisir une couleur");
+       
+   }else{//sinon on traite les deux possibilité
+     popupConfirmation();
+     storage();  
    }
-  
-    
- 
 });
 }
 addBasket();
