@@ -6,6 +6,8 @@ console.log(basket);
 //Récupérer mon élément avec l'id pour insérer les informations de chaque produit dans la page panier
 let cartItems = document.getElementById("cart__items");
 console.log(cartItems);
+product = [];
+console.log(product);
 
 function basketElements(){
 if(basket === null){ //si le panier est vide le total est 0 et le message est "Vous n'avez aucun article dans le panier"
@@ -20,9 +22,10 @@ if(basket === null){ //si le panier est vide le total est 0 et le message est "V
   console.log("je suis vide") //teste
 }else{ //si le panier n'est pas vide alors on affiche le panier
     console.log("je ne suis pas vide")//teste
-    for (let article in basket){   
+    for (let article in basket){  
     //Grâce à l'id des éléments dans le storage on effectue une requête afin de récupérer les articles.
     //fonction pour récupérer les images, le nom, la description et le prix de nos article qui sont dans le panier depuis l'API
+   
      async function getArticle(){
       await fetch(`http://localhost:3000/api/products/${basket[article].id}`)
 
@@ -32,14 +35,16 @@ if(basket === null){ //si le panier est vide le total est 0 et le message est "V
         }
     })
     .then(function(data){
-           product = data;
-      console.log(product) 
+         product = data; 
+         console.log(product)  
+         
     })
     
     .catch(function(err){
         console.log(err)
     })
      }
+    
      //Fonction pour afficher nos articles
      async function articleDisplay(){
      await getArticle();
@@ -110,9 +115,40 @@ if(basket === null){ //si le panier est vide le total est 0 et le message est "V
         deleteItem.classList.add("deleteItem");
         deleteItem.textContent = "Supprimer";
         cartItemContentSettingsDelete.appendChild(deleteItem);
+        //----------------------fin creation des éléments--------------------------//
+
+        //fonction prix et quantité total
+       /*  function total(){
+            //declaration de des variables pour ajouter le prix total et la quantité
+               document.getElementById("cart__items");
+               document.getElementById("totalQuantity");
+               document.getElementById("totalPrice");
+               let totalPrice = 0;
+              let totalQuantity =0;
+             basket.forEach(article => {
+             console.log(article);
+             totalQuantity += article.quantity ;
+             document.getElementById("totalQuantity").textContent = totalQuantity;  
+             let price = product.price * article.quantity;
+             console.log(price)
+             totalPrice += price ;
+             document.getElementById("totalPrice").textContent = totalPrice;
+            })
+           }
+            total(); */
+       
      }     
      articleDisplay();
     }
-}
+    
+}//fin else
 }
 basketElements();
+
+// si je met la fonction total ici il m'affiche NaN 
+
+
+ 
+
+
+
