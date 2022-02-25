@@ -2,15 +2,10 @@
 let basket = JSON.parse( localStorage.getItem("productAdded")) ;//JSON.parse() pour convertir les données au format JSON qui sont dans le locaStorage en objet JavaScript
 console.log(basket);
 //-----------------------Affichage produit panier---------------------------
-//Afficher les produits dans la page panier
-//Récupérer mon élément avec l'id pour insérer les informations de chaque produit dans la page panier
-let cartItems = document.getElementById("cart__items");
-console.log(cartItems);
-product = [];
-console.log(product);
 
 function basketElements(){
-if(basket === null){ //si le panier est vide le total est 0 et le message est "Vous n'avez aucun article dans le panier"
+if(basket === null){ //si le panier est vide le total est 0 et le message est "Oups , vous n'avez aucun article dans le panier"
+    //Récupérer mon élément avec l'id pour insérer les informations de chaque produit dans la page panier
     let cartItems = document.getElementById("cart__items");
     document.getElementById("totalQuantity").textContent = 0;
     document.getElementById("totalPrice").textContent = 0 ;
@@ -34,17 +29,14 @@ if(basket === null){ //si le panier est vide le total est 0 et le message est "V
             return res.json()   
         }
     })
-    .then(function(data){
-         product = data; 
-         console.log(product)  
-         
-    })
-    
+    .then(function(data){ 
+         product = data
+        // console.log(product)      
+    }) 
     .catch(function(err){
         console.log(err)
     })
-     }
-    
+    }
      //Fonction pour afficher nos articles
      async function articleDisplay(){
      await getArticle();
@@ -56,7 +48,7 @@ if(basket === null){ //si le panier est vide le total est 0 et le message est "V
       articleProduct.setAttribute("data-id",`${basket[article].id}`); //récupérer l'id de localStorage
       articleProduct.setAttribute("data-color", `${basket[article].colors}`); //récupérer la couleur choisi de localStorage
       cartItems.appendChild(articleProduct);
-      console.log(articleProduct);
+     // console.log(articleProduct); 
        //image
        let cartItemImg = document.createElement("div");
         cartItemImg.classList.add("cart__item__img");
@@ -83,8 +75,10 @@ if(basket === null){ //si le panier est vide le total est 0 et le message est "V
         cartItemContentDescription.appendChild(colorDescription);
         //description-prix
          let priceDescription = document.createElement("p");
-         priceDescription.textContent = product.price;
+         priceDescription.textContent = product.price; 
+         priceDescription.valueAsNumber = product.price; //donner une valeur entant que nombre au prix pour la rappeller dans le calcul du total
          cartItemContentDescription.appendChild(priceDescription);
+
         //settings
         let cartItemContentSettings = document.createElement("div");
         cartItemContentSettings.classList.add("cart__item__content__settings");
@@ -117,35 +111,45 @@ if(basket === null){ //si le panier est vide le total est 0 et le message est "V
         cartItemContentSettingsDelete.appendChild(deleteItem);
         //----------------------fin creation des éléments--------------------------//
 
-        //fonction prix et quantité total
-       /*  function total(){
-            //declaration de des variables pour ajouter le prix total et la quantité
-               document.getElementById("cart__items");
-               document.getElementById("totalQuantity");
-               document.getElementById("totalPrice");
-               let totalPrice = 0;
-              let totalQuantity =0;
-             basket.forEach(article => {
-             console.log(article);
-             totalQuantity += article.quantity ;
-             document.getElementById("totalQuantity").textContent = totalQuantity;  
-             let price = product.price * article.quantity;
-             console.log(price)
-             totalPrice += price ;
-             document.getElementById("totalPrice").textContent = totalPrice;
-            })
-           }
-            total(); */
-       
-     }     
-     articleDisplay();
-    }
+     //__________________________________________________________________________
+     // function qui calcule le prix et la quantité totale
+     function total(){
+        //cibler les éléments par id ou class 
+        let itemQuantity = document.getElementsByClassName("itemQuantity");
+        let productTotalQuantity = document.getElementById("totalQuantity");
+        let productTotalPrice = document.getElementById("totalPrice");
+        let priceDesc = document.querySelectorAll(".cart__item__content__description p:last-child");
+        //initialiser mes variables
+        let totalPrice = 0;
+        let totalQuantity = 0;
+        //créer une boucle qui parcourt chaque quantité
+        for (let i = 0; i < itemQuantity.length; i++){
+               let quantity = itemQuantity[i].valueAsNumber;
+               let price = priceDesc[i].valueAsNumber;
+               totalQuantity += quantity;
+               totalPrice += price * quantity;       
+        }
+        productTotalQuantity.textContent = totalQuantity;
+        productTotalPrice.textContent = totalPrice;
+       }
+       total();   
     
+  }     
+   articleDisplay();
+   
+ } //fin boucle 
+ 
 }//fin else
+
 }
 basketElements();
 
-// si je met la fonction total ici il m'affiche NaN 
+
+
+
+
+
+
 
 
  
