@@ -76,7 +76,7 @@ if(basket === null){ //si le panier est vide le total est 0 et le message est "O
         //description-prix
          let priceDescription = document.createElement("p");
          priceDescription.textContent = product.price; 
-         priceDescription.valueAsNumber = product.price; //donner une valeur entant que nombre au prix pour la rappeller dans le calcul du total
+         priceDescription.valueAsNumber = product.price; // Renvoie la valeur de l'élément, interprété comme un nombre
          cartItemContentDescription.appendChild(priceDescription);
 
         //settings
@@ -112,20 +112,21 @@ if(basket === null){ //si le panier est vide le total est 0 et le message est "O
         //----------------------fin creation des éléments--------------------------//
 
      //__________________________________________________________________________
-     // function qui calcule le prix et la quantité totale
+     // fonction qui calcule le prix et la quantité totale
      function total(){
         //cibler les éléments par id ou class 
-        let itemQuantity = document.getElementsByClassName("itemQuantity");
+        let productQuantity = document.querySelectorAll(".itemQuantity");
+        let productPrice = document.querySelectorAll(".cart__item__content__description p:last-child");
         let productTotalQuantity = document.getElementById("totalQuantity");
         let productTotalPrice = document.getElementById("totalPrice");
-        let priceDesc = document.querySelectorAll(".cart__item__content__description p:last-child");
+      
         //initialiser mes variables
         let totalPrice = 0;
         let totalQuantity = 0;
         //créer une boucle qui parcourt chaque quantité
-        for (let i = 0; i < itemQuantity.length; i++){
-               let quantity = itemQuantity[i].valueAsNumber;
-               let price = priceDesc[i].valueAsNumber;
+        for (let i = 0; i < productQuantity.length; i++){
+               let quantity = productQuantity[i].valueAsNumber;
+               let price = productPrice[i].valueAsNumber;
                totalQuantity += quantity;
                totalPrice += price * quantity;       
         }
@@ -133,7 +134,14 @@ if(basket === null){ //si le panier est vide le total est 0 et le message est "O
         productTotalPrice.textContent = totalPrice;
        }
        total();   
+    //____________________________________________________________
+    //Fonction qui supprime le produit
     
+
+   
+   
+    
+     
   }     
    articleDisplay();
    
@@ -147,7 +155,9 @@ basketElements();
 
 
 
-
+/* input.addEventListener('change', function () {
+    result.textContent = this.value;
+}); */
 
 
 
