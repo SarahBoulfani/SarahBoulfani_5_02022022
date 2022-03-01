@@ -210,5 +210,66 @@ function basketElements() {
 }
 basketElements();
 
+//***********************************Formulaire de commande*************************************//
+
+//récupérer le formulaire
+let form = document.querySelector(".cart__order__form");
+
+//-------------------------------------Validation firstName------------------------------------
+console.log(form.firstName); //ceci affiche l'input firstName dans la console 
+//écouter la modification de l'input firstName
+form.firstName.addEventListener('change', function () {
+    validFirstName(this); //this fait référence à l'input firstName donc ce que l'utilisateur est en train de saisir 
+});
+
+function validFirstName(inputFirstName) {
+    // Création de l'expression régulière pour la validation du prénom
+    let firstNameRegExp = new RegExp('^[a-zA-Zàâäéèêëïîôöùûüÿç-]+$', 'g');
+    //on teste l'expression régulière
+    let testFirstName = firstNameRegExp.test(inputFirstName.value); 
+    console.log(testFirstName);// Affichage du résultat dans la console true ou false
+    let messageError = inputFirstName.nextElementSibling;//récupérer la balise suivante qui est la balise p pour afficher le message d'erreur
+    console.log(messageError);
+    if (testFirstName) {//si le testFirstName est vrai on affiche rien
+        messageError.textContent = "";
+        return true; //firstName valide la fonction validfirstName retourne vrai
+
+    } else { //sinon on affiche le message d'erreur
+        messageError.textContent = "Veuillez entrer un prénom valide";
+        return false;// firstName non valide la fonction validfirstName retourne false
+    }
+};
+
+//-------------------------------------Validation lastName------------------------------------
+console.log(form.lastName); //ceci affiche l'input lastName dans la console 
+//écouter la modification de l'input lastName
+form.lastName.addEventListener('change', function () {
+    validLastName(this); //this fait référence à l'input lastName donc ce que l'utilisateur est en train de saisir 
+});
+
+function validLastName(inputLastName) {
+    // Création de l'expression régulière pour la validation du nom
+    let firstNameRegExp = new RegExp('^[a-zA-Zàâäéèêëïîôöùûüÿç-]+$', 'g');
+    //on teste l'expression régulière
+    let testLastName = firstNameRegExp.test(inputLastName.value); 
+    console.log(testLastName);// Affichage du résultat dans la console true ou false
+    let messageError = inputLastName.nextElementSibling;//récupérer la balise suivante qui est la balise p pour afficher le message d'erreur
+    console.log(messageError);
+    if (testLastName) {//si le testLastName est vrai on affiche rien
+        messageError.textContent = "";
+        return true; //lastName valide la fonction validLastName retourne vrai
+
+    } else { //sinon on affiche le message d'erreur
+        messageError.textContent = "Veuillez entrer un nom valide";
+        return false;// lasttName non valide la fonction validLastName retourne false
+    }
+};
+
+
+
+
+
+
+
 
 
