@@ -97,7 +97,7 @@ function basketElements() {
                 itemQuantity.setAttribute("name", "itemQuantity");
                 itemQuantity.setAttribute("min", "1");
                 itemQuantity.setAttribute("max", "100");
-                itemQuantity.setAttribute("value", `${basket[article].quantity}`); //récupérer la quantité de localStorage
+                itemQuantity.setAttribute("value", `${basket[article].quantity}`); 
                 cartItemContentSettingsQuantity.appendChild(itemQuantity);
                 //settings_delete
                 let cartItemContentSettingsDelete = document.createElement("div");
@@ -249,9 +249,9 @@ form.lastName.addEventListener('change', function () {
 
 function validLastName(inputLastName) {
     // Création de l'expression régulière pour la validation du nom
-    let firstNameRegExp = new RegExp('^[a-zA-Zàâäéèêëïîôöùûüÿç-]+$', 'g');
+    let lastNameRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüÿç-]+$", "g");
     //on teste l'expression régulière
-    let testLastName = firstNameRegExp.test(inputLastName.value); 
+    let testLastName = lastNameRegExp.test(inputLastName.value); 
     console.log(testLastName);// Affichage du résultat dans la console true ou false
     let messageError = inputLastName.nextElementSibling;//récupérer la balise suivante qui est la balise p pour afficher le message d'erreur
     console.log(messageError);
@@ -261,12 +261,59 @@ function validLastName(inputLastName) {
 
     } else { //sinon on affiche le message d'erreur
         messageError.textContent = "Veuillez entrer un nom valide";
-        return false;// lasttName non valide la fonction validLastName retourne false
+        return false;// lastName non valide la fonction validLastName retourne false
     }
 };
 
+//-------------------------------------Validation adresse------------------------------------
+console.log(form.address); //ceci affiche l'input address dans la console 
+//écouter la modification de l'input address
+form.address.addEventListener('change', function () {
+    validAddress(this); //this fait référence à l'input address donc ce que l'utilisateur est en train de saisir 
+});
 
+function validAddress(inputAddress) {
+    // Création de l'expression régulière pour la validation de l'adresse
+    let addressRegExp = new RegExp( "^[a-zA-Z0-9àâäéèêëïîôöùûüÿç,. '-]+$","g");
+    //on teste l'expression régulière
+    let testAddress = addressRegExp.test(inputAddress.value); 
+    console.log(testAddress);// Affichage du résultat dans la console true ou false
+    let messageError = inputAddress.nextElementSibling;//récupérer la balise suivante qui est la balise p pour afficher le message d'erreur
+    console.log(messageError);
+    if (testAddress) {//si le testAddress est vrai on affiche rien
+        messageError.textContent = "";
+        return true; // adresse valide la fonction validAddress retourne vrai
 
+    } else { //sinon on affiche le message d'erreur
+        messageError.textContent = "Veuillez entrer une adresse valide";
+        return false;// adresse non valide la fonction validAddress retourne false
+    }
+};
+
+//-------------------------------------Validation City------------------------------------
+console.log(form.city); //ceci affiche l'input city dans la console 
+//écouter la modification de l'input city
+form.city.addEventListener('change', function () {
+    validCity(this); //this fait référence à l'input city donc ce que l'utilisateur est en train de saisir 
+});
+
+function validCity(inputCity) {
+    // Création de l'expression régulière pour la validation de la ville
+    let cityRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüÿç-]+$", "g");
+    //on teste l'expression régulière
+    let testCity = cityRegExp.test(inputCity.value); 
+    console.log(testCity);// Affichage du résultat dans la console true ou false
+    let messageError = inputCity.nextElementSibling;//récupérer la balise suivante qui est la balise p pour afficher le message d'erreur
+    console.log(messageError);
+    if (testCity) {//si le testCity est vrai on affiche rien
+        messageError.textContent = "";
+        return true; //city valide la fonction validCity retourne vrai
+
+    } else { //sinon on affiche le message d'erreur
+        messageError.textContent = "Veuillez entrer une ville valide";
+        return false;// city non valide la fonction validCity retourne false
+    }
+};
 
 
 
