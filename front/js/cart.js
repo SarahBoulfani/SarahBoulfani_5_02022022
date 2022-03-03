@@ -124,7 +124,7 @@ function basketElements() {
                     let totalQuantity = 0;
                     //créer une boucle qui parcourt chaque quantité
                     for (let i = 0; i < productQuantity.length; i++) {
-                        let quantity = parseInt(productQuantity[i].value);
+                        let quantity = Number(productQuantity[i].value);
                         let price = parseFloat(productPrice[i].textContent);
                         //console.log(productPrice[i].textContent);
                         totalQuantity += quantity;
@@ -195,7 +195,6 @@ function basketElements() {
                             cartArticle.remove();
                             //mise à jour du localStorage
                             localStorage.setItem("productAdded", JSON.stringify(basket));
-        
                             // mise à jour des totals en chargeant la page 
                             location.reload();
 

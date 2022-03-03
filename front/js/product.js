@@ -127,10 +127,10 @@ function addBasket() {
 
       /*Fonction qui vérifie si une quantité et une couleur ont bien été choisies*/
       function verifInput() {//on affiche une alerte pour renseigner les input
-         if (choiceProduct.quantity == 0 || choiceProduct.quantity == "" || choiceProduct.quantity > 100 || choiceProduct.colors == "") {
+         if (choiceProduct.quantity <= 0 || choiceProduct.quantity == "" || choiceProduct.quantity > 100 || choiceProduct.colors == "") {
             alert("Veuillez indiquer une quantité correcte et/ou choisir une couleur");
 
-         } else {//Sinon on affiche une popup et on ajoute le produit au localStorage avec la fonction storage
+         } else {//Sinon on affiche une popup de confirmation et on ajoute le produit au localStorage avec la fonction storage
             popupConfirmation();
             storage(); 
          }
