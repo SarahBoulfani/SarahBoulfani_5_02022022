@@ -80,7 +80,7 @@ function addBasket() {
       let choiceProduct = {
          id: productID,
          colors: selectColor.value,
-         quantity: parseInt(quantity.value)
+         quantity: quantity.value
       }
       console.log(choiceProduct);
 
@@ -100,7 +100,7 @@ function addBasket() {
          if (addLocalStorage !== null) {
             let foundProduct = addLocalStorage.find(p => p.id == choiceProduct.id && choiceProduct.colors == p.colors) //find est une fonction qui travaille sur les tableau et qui permet de chercher un elelment sur un tableau par rapport à une condition, find() si elle trouve l'élement elle va retourner l'élement en question sinon elle retourne undefined 
             if (foundProduct != undefined) {  //Si on trouve le même produit dans le panier alors on augmente sa quantité 
-               foundProduct.quantity = choiceProduct.quantity + foundProduct.quantity;
+               foundProduct.quantity = Number(choiceProduct.quantity) + Number(foundProduct.quantity);
                //mise à jour du panier
                localStorage.setItem("productAdded", JSON.stringify(addLocalStorage));
             } else if (addLocalStorage) { //sinon s'il y a deja un produit avec id et couleur différents on crée un nouveau objet dans le panier
@@ -127,8 +127,8 @@ function addBasket() {
 
       /*Fonction qui vérifie si une quantité et une couleur ont bien été choisies*/
       function verifInput() {//on affiche une alerte pour renseigner les input
-         if (choiceProduct.quantity == 0 ||  choiceProduct.quantity == null ||  choiceProduct.quantity > 100 || choiceProduct.colors == "") {
-            alert("Veuillez indiquer une quantité correcte et choisir une couleur");
+         if (choiceProduct.quantity == 0 || choiceProduct.quantity == "" || choiceProduct.quantity > 100 || choiceProduct.colors == "") {
+            alert("Veuillez indiquer une quantité correcte et/ou choisir une couleur");
 
          } else {//Sinon on affiche une popup et on ajoute le produit au localStorage avec la fonction storage
             popupConfirmation();
