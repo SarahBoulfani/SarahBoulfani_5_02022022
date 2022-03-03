@@ -97,7 +97,7 @@ function basketElements() {
                 itemQuantity.setAttribute("name", "itemQuantity");
                 itemQuantity.setAttribute("min", "1");
                 itemQuantity.setAttribute("max", "100");
-                itemQuantity.setAttribute("value", `${basket[article].quantity}`); 
+                itemQuantity.setAttribute("value", `${basket[article].quantity}`);
                 cartItemContentSettingsQuantity.appendChild(itemQuantity);
                 //settings_delete
                 let cartItemContentSettingsDelete = document.createElement("div");
@@ -144,7 +144,8 @@ function basketElements() {
                     //on récupére l'input de la quantité à modifier
                     productQuantity = document.querySelectorAll(".itemQuantity");
                     productQuantity.forEach((item) => {
-                        //récupérer nos articles
+                        //récupérer nos articles pou utilisé les datset
+                        //closest renvoie l'élément ancêtre le plus proche, donc article qui englobe l'input quantité
                         let cartArticle = item.closest("article");
                         // console.log(cartArticle);
                         //récupèrer l'id et la couleur de l'article grâce au dataset
@@ -163,10 +164,10 @@ function basketElements() {
                                     console.log(newQuantity);
                                 }
                             }
-                            // mise à jour des totals en chargeant la page 
-                            location.reload();
                             //mise à jour du LocalStorage
                             localStorage.setItem("productAdded", JSON.stringify(basket));
+                            // mise à jour des totals en chargeant la page 
+                            location.reload();
                         })
                     })
                 }
@@ -179,7 +180,7 @@ function basketElements() {
                     //on crée une boucle sur les boutons supprimer
                     deleteItem.forEach((item) => {
                         //on écoute le clic sur le bouton supprimer ciblé
-                        item.addEventListener("click", (event) => {
+                        item.addEventListener("click", () => {
                             //closest renvoie l'élément ancêtre le plus proche, donc article qui englobe le bouton supprimer 
                             let cartArticle = item.closest("article");
                             // console.log(cartArticle);
@@ -190,12 +191,15 @@ function basketElements() {
                             //Avec la méthode filter on selectionne les élément à garder et on supprime l'élément où le bouton supprimer a été cliqué du tableau basket
                             basket = basket.filter((element) => element.id !== idData || element.colors !== colorData);
                             console.log(basket);
-                            //mise à jour du localStorage
-                            localStorage.setItem("productAdded", JSON.stringify(basket));
                             //supprimer l'articles du DOM
                             cartArticle.remove();
+                            //mise à jour du localStorage
+                            localStorage.setItem("productAdded", JSON.stringify(basket));
+                            //Alerte pour avertir que le produit va être supprimé du panier
+                            alert("Attention ce produit va être supprimer de votre panier");
                             // mise à jour des totals en chargeant la page 
                             location.reload();
+
                         });
                     });
                 }
@@ -226,7 +230,7 @@ function validFirstName(inputFirstName) {
     // Création de l'expression régulière pour la validation du prénom
     let firstNameRegExp = new RegExp('^[a-zA-Zàâäéèêëïîôöùûüÿç-]+$', 'g');
     //on teste l'expression régulière
-    let testFirstName = firstNameRegExp.test(inputFirstName.value); 
+    let testFirstName = firstNameRegExp.test(inputFirstName.value);
     console.log(testFirstName);// Affichage du résultat dans la console true ou false
     let messageError = inputFirstName.nextElementSibling;//récupérer la balise suivante qui est la balise p pour afficher le message d'erreur
     console.log(messageError);
@@ -251,7 +255,7 @@ function validLastName(inputLastName) {
     // Création de l'expression régulière pour la validation du nom
     let lastNameRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüÿç-]+$", "g");
     //on teste l'expression régulière
-    let testLastName = lastNameRegExp.test(inputLastName.value); 
+    let testLastName = lastNameRegExp.test(inputLastName.value);
     console.log(testLastName);// Affichage du résultat dans la console true ou false
     let messageError = inputLastName.nextElementSibling;//récupérer la balise suivante qui est la balise p pour afficher le message d'erreur
     console.log(messageError);
@@ -274,9 +278,9 @@ form.address.addEventListener('change', function () {
 
 function validAddress(inputAddress) {
     // Création de l'expression régulière pour la validation de l'adresse
-    let addressRegExp = new RegExp( "^[a-zA-Z0-9àâäéèêëïîôöùûüÿç,. '-]+$","g");
+    let addressRegExp = new RegExp("^[a-zA-Z0-9àâäéèêëïîôöùûüÿç,. '-]+$", "g");
     //on teste l'expression régulière
-    let testAddress = addressRegExp.test(inputAddress.value); 
+    let testAddress = addressRegExp.test(inputAddress.value);
     console.log(testAddress);// Affichage du résultat dans la console true ou false
     let messageError = inputAddress.nextElementSibling;//récupérer la balise suivante qui est la balise p pour afficher le message d'erreur
     console.log(messageError);
@@ -301,7 +305,7 @@ function validCity(inputCity) {
     // Création de l'expression régulière pour la validation de la ville
     let cityRegExp = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüÿç-]+$", "g");
     //on teste l'expression régulière
-    let testCity = cityRegExp.test(inputCity.value); 
+    let testCity = cityRegExp.test(inputCity.value);
     console.log(testCity);// Affichage du résultat dans la console true ou false
     let messageError = inputCity.nextElementSibling;//récupérer la balise suivante qui est la balise p pour afficher le message d'erreur
     console.log(messageError);
@@ -315,7 +319,103 @@ function validCity(inputCity) {
     }
 };
 
+//-------------------------------------Validation Email------------------------------------
+console.log(form.email); //ceci affiche l'input email dans la console 
+//écouter la modification de l'input email
+form.email.addEventListener('change', function () {
+    validEmail(this); //this fait référence à l'input email donc ce que l'utilisateur est en train de saisir 
+});
 
+function validEmail(inputEmail) {
+    // Création de l'expression régulière pour la validation de l'email
+    let emailRegExp = new RegExp("^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[. -]{1}[a-z]{2,10}$", "g");
+
+    //on teste l'expression régulière
+    let testEmail = emailRegExp.test(inputEmail.value);
+    console.log(testEmail);// Affichage du résultat dans la console true ou false
+    let messageError = inputEmail.nextElementSibling;//récupérer la balise suivante qui est la balise p pour afficher le message d'erreur
+    console.log(messageError);
+    if (testEmail) {//si le testEmail est vrai on affiche rien
+        messageError.textContent = "";
+        return true; //email valide la fonction validEmail retourne vrai
+
+    } else { //sinon on affiche le message d'erreur
+        messageError.textContent = "Veuillez entrer un email valide";
+        return false;// email non valide la fonction validEmail retourne false
+    }
+};
+//-------------------------------------Passer la commande--------------------------------------
+//déclarer les variables contact et product attendu par l'API pour reçevoir le numéro de commande
+let contact = {
+    firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    email: ""
+}
+let products = [];
+//récupérer le bouton commander
+let btnOrder = document.getElementById('order');
+console.log(btnOrder);
+/*une fonction qui traite l'envoie de la requete et la récupération du numéro de commande*/
+function order() {
+    //Ecouter le bouton commander
+    btnOrder.addEventListener("click", function (e) {
+        e.preventDefault(); //empêcher le comportement par defaut de notre bouton
+        if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email) && basket != null && basket != 0) {//(1)-si form valid et le panier n'est pas vide on passe commande et on envoie une requete post pour reçevoir le orderId
+            contact = {
+                firstName: firstName.value,
+                lastName: lastName.value,
+                address: address.value,
+                city: city.value,
+                email: email.value
+            }
+            //console.log(contact);//ceci affiche le contacte avec ses information sur la console
+            //envoyer contact au localStorage
+            localStorage.setItem("contact", JSON.stringify(contact));
+            //récupérer l'id des produits pour la requete post ,l'Api étant dans sa version initiale elle ne prend pas en considération la quantité ni la couleur 
+            for (let i = 0; i < basket.length; i++) {//parcourir mon panier et envoyer les id dans products
+                products.push(basket[i].id);
+            }
+            // console.log(products)//ceci affiche les id des produits
+            //déclaration et initialisation de l'objet à envoyer
+            let orderApi = {
+                contact,
+                products,
+            }
+            console.log(orderApi);//ceci affiche l'objet à envoyer à l'API
+            // envoyer une requete post utilisant la fetch()
+            fetch("http://localhost:3000/api/products/order", {
+                // ajouter une méthode
+                method: "POST",
+                // ajouter headers
+                headers: {
+                    "Content-Type": "application/JSON",
+                },
+                // les informations à envoyer dans le body en format JSON
+                body: JSON.stringify(orderApi), //orderApi qui contient contact et produits
+            }).then(function (res) {//Appeler la fonction then pour récupérer la réponse de la requete 
+                if (res.ok) {
+                    return res.json()
+                }
+            }).then(function (data) {//Récuperer la réponse puis l'afficher dans la console
+                console.log(data)
+                //récupération de l'orderId pour l'afficher dans la page confirmation dans la variable orderConfirmation
+                let orderConfirmation = data.orderId;
+                console.log(orderConfirmation);//ceci affiche le numéro de commande
+                //mettre le orderId dans le localStorage pour le recupérer dans la page confirmation puis le supprimer car il ne doit pas etre stocker
+                localStorage.setItem("orderId", orderConfirmation)
+                window.location = "confirmation.html"; //aller sur la page confirmation
+            }).catch(function (err) {//attraper les erreurs
+                console.log(err)
+            })
+
+        } else {//(2)-sinon on affiche une alerte
+            alert("Merci de bien renseigner le formulaire et/ou ajouter un produit à votre panier");
+        }
+    });
+}
+order();
 
 
 
