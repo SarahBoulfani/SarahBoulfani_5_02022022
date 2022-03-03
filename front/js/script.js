@@ -1,6 +1,6 @@
 //Initialiser la variable qui contiendra nos données API
 let articles = [];
-//Récupérer les produits depuis l'API
+/*Fonction qui récupére les produits depuis l'API*/
 async function getArticles(){
 await fetch('http://localhost:3000/api/products')//await pour attendre que ce code s'exécute pour passer au suivant et du coup avoir du temps pour passer les données dans notre variable
 .then(function(res){//Appeler la fonction then pour récupérer la réponse de la requete 
@@ -18,7 +18,7 @@ await fetch('http://localhost:3000/api/products')//await pour attendre que ce co
     console.log(err)
 })
 }
-//Afficher nos articles sur notre page html avec la fonction articlesDisplay
+/*Fonction qui affiche dynamiquement les articles sur notre page d'accueil*/
 async function articlesDisplay(){
   await  getArticles(); //Appeler notre fonction qui récupére les données
 
@@ -26,7 +26,7 @@ async function articlesDisplay(){
     let items = document.getElementById("items");//Récupérer mon élément avec l'id items
     //link
     let link = document.createElement("a");//Créer un element a
-    link.href = `./product.html?id=${article._id}`; // Pour chaque article dans mon tableau articles je récupére la valeur de ma clé "_id" grace à la variable qui contient l'objet donc "article" et le nom de ma clé : id= ${article._id} 
+    link.href = `./product.html?id=${article._id}`; // Pour chaque article dans mon tableau articles je récupére la valeur de ma clé "_id"
     items.appendChild(link);//Afficher l'élement sur ma page web grace à la fonction appendChild
     //article
     let cart = document.createElement("article");
@@ -48,5 +48,5 @@ async function articlesDisplay(){
     cart.appendChild(productDescription);
   } 
 }
-articlesDisplay();//Il faut rappeler la fonction pour qu'elle s'exécute au lancement de la page
+articlesDisplay();
 
