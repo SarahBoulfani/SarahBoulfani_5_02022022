@@ -12,7 +12,8 @@ function confirmation() {
     //console.log(orderId); 
     //Puis l'afficher
     confirmationOrder.innerText = `${orderId}.          
-    ${name}, nous vous remercions pour votre commande.`;
+    Bonjour ${name}, 
+    Nous vous remercions de votre visite et avons le plaisir de vous confirmer votre commande.`;
     //Supprimer le localStorage
     localStorage.clear();
 }
