@@ -1,7 +1,7 @@
 /*Récupèrer l'id produit depuis l'Url avec URLSearchParams*/
 let params = new URLSearchParams(document.location.search);
-let productID = params.get("id");
-console.log(productID);
+let productID = params.get("id"); //Récupérer la valeur de 'id' dans l'URL
+console.log(productID);//afficher i'id sur la console
 
 /*Fonction qui récupérer le produit depuis l'API grâce à son Id*/
 let product = [];
@@ -132,7 +132,7 @@ function addBasket() {
 
          } else {//Sinon on affiche une popup de confirmation et on ajoute le produit au localStorage avec la fonction storage
             popupConfirmation();
-            storage(); 
+            storage();
          }
       }
       verifInput();
