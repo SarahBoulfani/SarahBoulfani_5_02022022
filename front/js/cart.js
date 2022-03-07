@@ -317,7 +317,7 @@ form.email.addEventListener('change', function () {
 
 function validEmail(inputEmail) {
     //Création de l'expression régulière pour la validation de l'email
-    let emailRegExp = new RegExp("^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[. -]{1}[a-z]{2,10}$", "g");
+    let emailRegExp = new RegExp("^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$", "g");
 
     //On teste l'expression régulière
     let testEmail = emailRegExp.test(inputEmail.value);
@@ -393,11 +393,8 @@ function order() {
                 //Récupération orderId pour l'afficher dans la page confirmation dans la variable orderConfirmation
                 let orderConfirmation = data.orderId;
                 console.log(orderConfirmation);//Ceci affiche le numéro de commande
-                //Mettre orderId dans le localStorage pour le recupérer dans la page confirmation puis le supprimer car il ne doit pas etre stocker
-                localStorage.setItem("orderId", orderConfirmation)
-                window.location = "confirmation.html"; //Aller sur la page confirmation
-                /*deuxiéme methode*/
-                /* document.location.href=`confirmation.html?id_commande=${orderConfirmation}`; //Aller sur la page confirmation */
+                //Aller sur la page confirmation 
+                document.location.href = `confirmation.html?id_commande=${orderConfirmation}`;
             }).catch(function (err) {//Attraper les erreurs
                 console.log(err)
             })
