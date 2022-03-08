@@ -3,7 +3,7 @@ function confirmation() {
     //Récupérer contact du localStorage
     let contact = JSON.parse(localStorage.getItem("contact"));
     //console.log(contact);
-    //Récupération du firstName value pour l'afficher dans le message de la commande 
+    //Récupération de la valeur de firstName pour l'afficher dans le message de la commande 
     let name = contact.firstName;
     //Ciblé l'élément par son id pour afficher le numéro de commande
     let confirmation = document.getElementById("orderId");

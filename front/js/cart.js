@@ -333,7 +333,7 @@ function validEmail(inputEmail) {
         return false;// email non valide la fonction validEmail retourne false
     }
 };
-/*-------------------------------------Passer la commande--------------------------------------*/
+/*---------------------------------Passer la commande-------------------------------*/
 //Déclarer les variables contact et products attendu par l'API afin que je reçois le numéro de commande
 let contact = {
     firstName: "",
@@ -390,7 +390,7 @@ function order() {
                 }
             }).then(function (data) {//Récuperer la réponse puis l'afficher dans la console
                 console.log(data)
-                //Récupération orderId pour l'afficher dans la page confirmation dans la variable orderConfirmation
+                //Récupération de l'orderId pour l'afficher dans la page confirmation dans la variable orderConfirmation
                 let orderConfirmation = data.orderId;
                 console.log(orderConfirmation);//Ceci affiche le numéro de commande
                 //Aller sur la page confirmation 
