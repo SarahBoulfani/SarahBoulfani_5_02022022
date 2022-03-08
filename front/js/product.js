@@ -1,7 +1,7 @@
 /*Récupèrer l'id produit depuis l'Url avec URLSearchParams*/
 let params = new URLSearchParams(document.location.search);
 let productID = params.get("id"); //Récupérer la valeur de 'id' dans l'URL
-console.log(productID);//afficher i'id sur la console
+console.log(productID);//afficher l'id sur la console
 
 /*Fonction qui récupérer le produit depuis l'API grâce à son Id*/
 let product = [];
@@ -23,20 +23,15 @@ async function getProduct() {
       })
 }
 
-
 /*Récupérer les élémnents HTML avec l'id ou leur classe pour créer et afficher le produit en question dans la page produit*/
 //Image
 const item__img = document.querySelector(".item__img");
-
 //Titre du produit
 const title = document.getElementById("title");
-
 //Price
 const price = document.getElementById("price");
-
 //Description:
 const description = document.getElementById("description");
-
 //Couleur
 const selectColor = document.getElementById("colors");
 //Quantité
@@ -56,7 +51,7 @@ async function productDisplay() {
    price.textContent = product.price;
    //description du produit
    description.textContent = product.description;
-   //une boucle pour selectionner la couleur : pour dire crée pour le parent selectColor tant d'option quil faut donc tout dépend de la longeur de mon tableau colors avec comme valeur et contenu product.colors[i] 
+   //une boucle pour sélectionner la couleur : pour dire crée pour le parent selectColor tant d'option qu'il faut donc tout dépend de la longeur de mon tableau colors avec comme valeur et contenu product.colors[i] 
    for (let i = 0; i < product.colors.length; i++) {
       const selectColor = document.getElementById("colors");
       let option = document.createElement("option");
@@ -118,7 +113,7 @@ function addBasket() {
       function popupConfirmation() {
          if (window.confirm(`${product.name} 
     Couleur : ${selectColor.value} , Quantité : ${quantity.value} a bien été ajouter au panier 
-    Consulter le panier Ok ou revenir à l'accueil Annuler `  )) {
+    Consulter le panier Ok ou revenir à l'accueil Annuler `)) {
             window.location.href = "cart.html";
          } else {
             window.location.href = "index.html";
